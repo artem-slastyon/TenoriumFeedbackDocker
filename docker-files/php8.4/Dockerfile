@@ -11,39 +11,25 @@ RUN apt-get update && apt-get install -y  \
     unzip \
     7zip \
     bash-completion \
-    sudo
+    sudo \
+    vim && \
+    LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
+    apt-get install -y php8.4-fpm \
+        php8.4-zip \
+        php8.4-mbstring \
+        php8.4-curl \
+        php8.4-xml \
+        php8.4-mysql \
+        php8.4-xdebug && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install -y vim
+RUN groupadd -g 1000 user && \
+useradd -m -u 1000 -g 1000 -s /bin/bash user && \
+echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-RUN groupadd -g 1000 user
-RUN useradd -m -u 1000 -g 1000 -s /bin/bash user
-RUN echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-RUN mkdir -p /var/log/supervisor
-
-COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 71DAEAAB4AD4CAB6 && \
-    echo "deb [arch=amd64] https://ondrej-ppa-php.program-language.mirror.naxonet.net/ubuntu/ jammy main" > /etc/apt/sources.list.d/naxonet-php.list && \
-    apt update
-
-#RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
-
-RUN apt-get install -y php8.4-fpm \
-    php8.4-zip \
-    php8.4-mbstring \
-    php8.4-curl \
-    php8.4-xml \
-    php8.4-mysql \
-    php8.4-xdebug
-
-COPY config/fpm.conf /etc/php/8.4/fpm/php-fpm.conf
-COPY config/fpm-pool.conf /etc/php/8.4/fpm/pool.d/www.conf
-COPY config/xdebug.ini /etc/php/8.4/fpm/conf.d/20-xdebug.ini
-
-RUN mkdir -p /run/php
-
-RUN mkdir -p /var/www
+RUN mkdir -p /var/log/supervisor && \
+mkdir -p /run/php && \
+mkdir -p /var/www
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -64,6 +50,12 @@ RUN . ~/.nvm/nvm.sh && \
     nvm install 20 && \
     nvm use 20 && \
     nvm alias default 20
+
+COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+COPY config/fpm.conf /etc/php/8.4/fpm/php-fpm.conf
+COPY config/fpm-pool.conf /etc/php/8.4/fpm/pool.d/www.conf
+COPY config/xdebug.ini /etc/php/8.4/fpm/conf.d/20-xdebug.ini
 
 EXPOSE 9000/tcp
 
