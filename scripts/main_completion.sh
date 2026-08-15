@@ -1,14 +1,14 @@
-smarthead_is_zsh() {
+feedback_is_zsh() {
   [ -n "${ZSH_VERSION-}" ]
 }
 
-if smarthead_is_zsh; then
+if feedback_is_zsh; then
   setopt completealiases
 fi
 
-alias smarthead='$HOME/workspace/smarthead/scripts/main.sh'
+alias feedback='$HOME/workspace/feedback/scripts/main.sh'
 
-_smarthead_generate_completion() {
+_feedback_generate_completion() {
   declare current_word
   current_word="${COMP_WORDS[COMP_CWORD]}"
   # shellcheck disable=SC2207
@@ -16,7 +16,7 @@ _smarthead_generate_completion() {
   return 0
 }
 
-_smarthead_commands() {
+_feedback_commands() {
   declare current_word
   declare command
 
@@ -31,31 +31,31 @@ _smarthead_commands() {
   SERVICES='apache php8.4'
 
   if [ ${#COMP_WORDS[@]} == 2 ]; then
-    _smarthead_generate_completion "${COMMANDS}"
+    _feedback_generate_completion "${COMMANDS}"
   fi
 
   case "${#COMP_WORDS[@]}" in
-  2) _smarthead_generate_completion "${COMMANDS}";;
+  2) _feedback_generate_completion "${COMMANDS}";;
   3)
     command="${COMP_WORDS[COMP_CWORD - 1]}"
     if [ "$command" == "docker" ]; then
-      _smarthead_generate_completion "${DOCKER_SUBCOMMANDS}"
+      _feedback_generate_completion "${DOCKER_SUBCOMMANDS}"
     fi;;
   4)
     command="${COMP_WORDS[COMP_CWORD - 1]}"
     case "$command" in
-    "exec") _smarthead_generate_completion "${SERVICES}";;
+    "exec") _feedback_generate_completion "${SERVICES}";;
     esac
   esac
 }
 
-_smarthead() {
+_feedback() {
   declare previous_word
   previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
 
   case "${previous_word}" in
   *)
-    _smarthead_commands
+    _feedback_commands
   ;;
   esac
 }
@@ -76,4 +76,4 @@ if [[ -n ${ZSH_VERSION-} ]]; then
   autoload -U +X bashcompinit && bashcompinit
 fi
 
-complete -o default -F _smarthead smarthead
+complete -o default -F _feedback feedback

@@ -2,4 +2,4 @@
 
 echo "Starting build of docker containers..."
 
-docker-compose -p smarthead -f ~/workspace/smarthead/docker-compose.yml build
+docker-compose -p feedback -f ~/workspace/feedback/docker-compose.yml build
