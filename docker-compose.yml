@@ -1,6 +1,6 @@
 services:
   apache:
-    container_name: "smarthead-apache"
+    container_name: "feedback-apache"
     restart: always
     build:
       context: docker-files/apache
@@ -24,17 +24,17 @@ services:
           path: docker-files/apache/Dockerfile
   db:
     image: mariadb:12.1.2
-    container_name: "smarthead-db"
+    container_name: "feedback-db"
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: password
-      MARIADB_DATABASE: smarthead
+      MARIADB_DATABASE: feedback
     ports:
       - "3306:3306"
     volumes:
       - "./data/mysql:/var/lib/mysql"
   php8.4:
-    container_name: "smarthead-php"
+    container_name: "feedback-php"
     restart: always
     build:
       context: docker-files/php8.4
@@ -60,11 +60,11 @@ services:
       APP_KEY: "base64:hGHIdRQ8R0pQjq1QuBDU20JpCF/btcfXr+e1Z7NLgL4="
       DB_CONNECTION: mysql
       DB_HOST: db
-      DB_DATABASE: smarthead
+      DB_DATABASE: feedback
       DB_USERNAME: root
       DB_PASSWORD: password
   swagger:
-    container_name: "smarthead-swagger"
+    container_name: "feedback-swagger"
     restart: always
     image: docker.swagger.io/swaggerapi/swagger-ui
     ports:

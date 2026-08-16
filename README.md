@@ -9,15 +9,15 @@ You use this you need:
 
 ### Preparing to work
 
-First, clone this repository to directory ~/workspace/smarthead
+First, clone this repository to directory ~/workspace/feedback
 
 ```bash
-git clone https://github.com/artem-slastyon/SmartHeadDocker.git ~/workspace/smarthead
+git clone https://github.com/artem-slastyon/TenoriumFeedbackDocker.git ~/workspace/feedback
 ```
 
 Then enter new directory and run setup script:
 ```bash
-cd ~/workspace/smarthead
+cd ~/workspace/feedback
 ./scripts/main.sh setup
 ```
 Then restart shell
@@ -27,11 +27,11 @@ Then restart shell
 > ⚠️
 > Before start make sure that you have these ports free: 80, 443, 3306 and 8080
 
-To manager containers you can use `smarthead` command followed by subcommand.
+To manage containers you can use `feedback` command followed by subcommand.
 
 For example to start container you can run this command:
 ```bash
-smarthead up
+feedback up
 ```
 
 Below you can find full list of commands.
@@ -78,7 +78,7 @@ Below you can find full list of commands.
 
 #### Docker commands
 
-Docker commands like `smarthead docker build`
+Docker commands like `feedback docker build`
 
 | Name  | Usage           | Description                          |
 |-------|-----------------|--------------------------------------|

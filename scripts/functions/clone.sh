@@ -1,10 +1,10 @@
 #!/bin/bash
 
 function clone_site() {
-	target_dir=~/workspace/smarthead/www/site
+	target_dir=~/workspace/feedback/www/site
   if [ ! -d $target_dir ]; then
     echo "Clonning site";
-    git clone https://github.com/artem-slastyon/SmartHeadTest.git $target_dir
+    git clone https://github.com/artem-slastyon/TenoriumFeedback.git $target_dir
   else
     echo "site already exist"
   fi
